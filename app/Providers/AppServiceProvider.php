@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Support\Storage\Contracts\SessionStorage;
+use App\Support\Storage\Contracts\StorageInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->bind(StorageInterface::class,function ($app) {
+            return new SessionStorage('card');
+        });
     }
 }
