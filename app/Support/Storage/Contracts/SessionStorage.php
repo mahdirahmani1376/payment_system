@@ -15,7 +15,7 @@ class SessionStorage implements StorageInterface, Countable
 
     public function count(): int
     {
-        // TODO: Implement count() method.
+        return count($this->all());
     }
 
     public function get($index)
@@ -30,7 +30,7 @@ class SessionStorage implements StorageInterface, Countable
 
     public function all()
     {
-        return session()->get($this->bucket);
+        return session()->get($this->bucket) ?? [];
     }
 
     public function exists($index)
@@ -40,11 +40,11 @@ class SessionStorage implements StorageInterface, Countable
 
     public function unset($index)
     {
-        // TODO: Implement unset() method.
+        return session()->forget($this->bucket . '.' . $index);
     }
 
     public function clear()
     {
-        // TODO: Implement clear() method.
+        return session()->forget($this->bucket);
     }
 }

@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\BasketController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
+use App\Support\Storage\Contracts\StorageInterface;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +32,19 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('basket/clear',function (StorageInterface $storage){
+    $storage->clear();
+});
+
+Route::controller(ProductsController::class)->group(function (){
+   Route::get('/products','index')->name('products.index');
+});
+
+Route::controller(BasketController::class)->group(function (){
+    Route::get('/basket','index')->name('basket.index');
+    Route::get('/basket/add/{product}','add')->name('basket.add');
+    Route::post('/basket/update/{product}','update')->name('basket.update');
+    Route::get('basket/checkout','checkoutForm')->name('basket.checkout.form')->middleware('auth');
+});
 

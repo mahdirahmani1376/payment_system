@@ -12,6 +12,7 @@ class ProductsController extends Controller
         $sessionStorage->set('product',5);
 
         $products = Product::all();
+
         return view('products',compact($products));
     }
 }
