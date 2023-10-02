@@ -5,6 +5,8 @@ namespace App\Support\Payment;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Support\Basket\Basket;
+use App\Support\Payment\gateways\Pasargad;
+use App\Support\Payment\gateways\Saman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -23,6 +25,10 @@ class Transaction
         $order = $this->makeOrder();
 
         $payment = $this->makePayment($order);
+
+        if ($payment->isOnline()){
+            $this->gatewayFactory()->pay($order);
+        }
 
         $this->basket->clear();
 
@@ -55,6 +61,16 @@ class Transaction
         {
             $product[$product->id] = ['quantity' => $product->quantity];
         }
+    }
+
+    private function gatewayFactory()
+    {
+        $gateway = [
+			'saman' => Saman::class,
+            'pasargad' => Pasargad::class
+        ][$this->request->gateway];
+
+        return app($gateway);
     }
 
 }

@@ -46,5 +46,6 @@ Route::controller(BasketController::class)->group(function (){
     Route::get('/basket/add/{product}','add')->name('basket.add');
     Route::post('/basket/update/{product}','update')->name('basket.update');
     Route::get('basket/checkout','checkoutForm')->name('basket.checkout.form')->middleware('auth');
+    Route::post('payment/{gateway}/callback','verify')->name('payment.verify');
 });
 
