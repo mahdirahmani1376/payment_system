@@ -5,6 +5,7 @@ namespace App\Support\Payment;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Support\Basket\Basket;
+use App\Support\Payment\gateways\GatewayInterface;
 use App\Support\Payment\gateways\Pasargad;
 use App\Support\Payment\gateways\Saman;
 use Illuminate\Http\Request;
@@ -71,6 +72,22 @@ class Transaction
         ][$this->request->gateway];
 
         return app($gateway);
+    }
+
+    public function verify()
+    {
+        $result = $this->gatewayFactory()->verify($this->request);
+        if ($result['status'] === GatewayInterface::TRANSACTION_FAILED) return false;
+
+        $this->confirmPayment($result);
+        $this->basket->clear();
+
+        return true;
+    }
+
+    private function confirmPayment($result)
+    {
+        return $result['order']->payment->confirm($result['refNum'],$result['gateWay']);
     }
 
 }
