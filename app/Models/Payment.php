@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
+    protected $attributes = [
+        'status' => 0
+    ];
 }

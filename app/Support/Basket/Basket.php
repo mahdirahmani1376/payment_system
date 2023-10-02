@@ -67,4 +67,9 @@ class Basket
 
         return $total;
     }
+
+    public function clear()
+    {
+        return $this->storage->clear();
+    }
 }
