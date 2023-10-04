@@ -11,4 +11,9 @@ class Product extends Model
     {
         return $this->stock >= $quantity;
     }
+
+    public function decrementStock(int $count)
+    {
+        return $this->decrement('stock', $count);
+    }
 }
