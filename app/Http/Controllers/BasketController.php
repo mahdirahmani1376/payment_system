@@ -44,7 +44,7 @@ class BasketController extends Controller
 
     public function checkoutForm()
     {
-
+		return view('checkout');
     }
 
     public function checkout(checkoutRequest $request)
