@@ -41,7 +41,7 @@ class Transaction
             $this->gatewayFactory()->pay($order);
         }
 
-        $this->completeOrder($result['order']);
+        $this->completeOrder($order);
 
 
         return $order;
